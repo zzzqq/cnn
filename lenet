@@ -1,0 +1,25 @@
+import tensorflow as tf
+from tensorflow.keras.datasets import mnist
+#数据加载
+#类别总数
+nb_classes=10
+(train_images,train_labels),(test_images,test_labels)=mnist.load_data()
+train_images=tf.reshape(train_images,(60000,28,28,1))
+test_images=tf.reshape(test_images,(test_images.shape[0],test_images.shape[1],test_images.shape[2],1))
+#模型构建
+net=tf.keras.models.Sequential([
+    tf.keras.layers.Conv2D(filters=6,kernel_size=5,activation='sigmoid',input_shape=(28,28,1)),   #参数为（5*5*1+1）*6
+    #最大池化
+    tf.keras.layers.MaxPool2D(pool_size=2,strides=2),
+    #卷积层
+    tf.keras.layers.Conv2D(filters=16,kernel_size=5,activation='sigmoid'),   #参数为（5*5*6+1）*16
+    #最大池化
+    tf.keras.layers.MaxPool2D(pool_size=2,strides=2),
+    #维度调整为1维
+    tf.keras.layers.Flatten(),
+    #全连接层
+    tf.keras.layers.Dense(120,activation='sigmoid'),   #参数为（4*4*16）*120+120
+    tf.keras.layers.Dense(84,activation='sigmoid'),     #参数为   120*84+84
+    tf.keras.layers.Dense(10,activation='softmax'),
+]
+)
