@@ -1,0 +1,43 @@
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+import matplotlib.pyplot as plt
+from tensorflow.keras.datasets import cifar10,cifar100
+(train_images,train_labels),(test_images,test_labels)=cifar10.load_data()
+
+#画一张图片
+plt.figure(figsize=(3,3))  #画布大小
+plt.imshow(train_images[1])
+
+#构建Alexnet网络
+net=tf.keras.models.Sequential([
+    #卷积层：96个卷积核，卷积核为11*11，步幅为4，激活函数为relu
+    tf.keras.layers.Conv2D(filters=96,kernel_size=11,strides=4,activation='relu'),
+    #池化：窗口大小为3*3，步幅2
+    tf.keras.layers.MaxPool2D(pool_size=3,strides=2),
+    #卷积层：256个卷积核，卷积核为5*5，步幅为1，padding为same,激活函数为relu
+    tf.keras.layers.Conv2D(filters=256,kernel_size=5,strides=1,padding='same',activation='relu'),
+    #池化：窗口大小为3*3，步幅2
+    tf.keras.layers.MaxPool2D(pool_size=3,strides=2),
+    #卷积层：384个卷积核，卷积核为3*3，步幅为1，padding为same,激活函数为relu
+    tf.keras.layers.Conv2D(filters=384,kernel_size=3,strides=1,padding='same',activation='relu'),
+    #卷积层：384个卷积核，卷积核为3*3，步幅为1，padding为same,激活函数为relu
+    tf.keras.layers.Conv2D(filters=384,kernel_size=3,strides=1,padding='same',activation='relu'),
+    #卷积层：256个卷积核，卷积核为3*3，步幅为1，padding为same,激活函数为relu
+    tf.keras.layers.Conv2D(filters=256,kernel_size=3,strides=1,padding='same',activation='relu'),
+    #池化：窗口大小为3*3，步幅2
+    tf.keras.layers.MaxPool2D(pool_size=3,strides=2),
+    #伸展成1维向量
+    tf.keras.layers.Flatten(),
+    #全连接层：4096个神经元，激活函数为relu
+    tf.keras.layers.Dense(4096,activation='relu'),
+    #随机失活
+    tf.keras.layers.Dropout(0.5),
+    #全连接层：4096个神经元，激活函数为relu
+    tf.keras.layers.Dense(4096,activation='relu'),
+    #随机失活
+    tf.keras.layers.Dropout(0.5),
+    #输出层：10个神经元，激活函数为softmax
+    tf.keras.layers.Dense(10,activation='softmax')
+]
+)
