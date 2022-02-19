@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-#构建Alexnet网络
+#构建Alexnet网络  输入图片大小必须为227*227*3
 net=tf.keras.models.Sequential([
     #卷积层：96个卷积核，卷积核为11*11，步幅为4，激活函数为relu
     tf.keras.layers.Conv2D(filters=96,kernel_size=11,strides=4,activation='relu'),
