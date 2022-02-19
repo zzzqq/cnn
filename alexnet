@@ -1,13 +1,6 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-import matplotlib.pyplot as plt
-from tensorflow.keras.datasets import cifar10,cifar100
-(train_images,train_labels),(test_images,test_labels)=cifar10.load_data()
-
-#画一张图片
-plt.figure(figsize=(3,3))  #画布大小
-plt.imshow(train_images[1])
 
 #构建Alexnet网络
 net=tf.keras.models.Sequential([
